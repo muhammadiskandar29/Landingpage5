@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Fuel, Gauge, Settings, ChevronRight, MessageCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Fuel, Gauge, Settings, ChevronRight, MessageCircle, CheckCircle2, XCircle, Plus } from "lucide-react";
 
 const cars = [
     {
@@ -18,6 +18,8 @@ const cars = [
         type: "Sedan",
         status: "Fresh",
         label: "Baru Masuk",
+        pros: ["Mesin turbo bertenaga", "Desain sporty & agresif", "Handling sangat stabil"],
+        cons: ["Kabin agak berisik di kecepatan tinggi", "Pajak tahunan cukup tinggi"]
     },
     {
         id: 2,
@@ -32,6 +34,8 @@ const cars = [
         type: "SUV",
         status: "Trending",
         label: "Banyak Dilihat",
+        pros: ["Torsi mesin 2.8 sangat melimpah", "Gagah & berwibawa", "Jaringan servis luas"],
+        cons: ["Pengereman terasa sedikit berat", "Konsumsi BBM dalam kota lumayan"]
     },
     {
         id: 3,
@@ -46,6 +50,8 @@ const cars = [
         type: "Sedan",
         status: "Sold",
         label: "TERJUAL",
+        pros: ["Kenyamanan khas Eropa", "Fitur teknologi canggih", "Image brand premium"],
+        cons: ["Biaya perawatan tinggi", "Part harus inden jika tidak ready"]
     },
     {
         id: 4,
@@ -60,6 +66,8 @@ const cars = [
         type: "SUV",
         status: "Ready",
         label: "Unit Terbatas",
+        pros: ["Fitur sunroof & elektrik", "Bantingan suspensi empuk", "Mesin handal"],
+        cons: ["Radius putar cukup besar", "Interior terasa agak sempit"]
     },
     {
         id: 5,
@@ -74,6 +82,8 @@ const cars = [
         type: "MPV",
         status: "Exclusive",
         label: "Unit Premium",
+        pros: ["Kenyamanan kursi pilot", "Kabin sangat senyap", "Kesan mewah maksimal"],
+        cons: ["Dimensi bongsor sulit parkir", "Sangat haus bahan bakar"]
     },
     {
         id: 6,
@@ -88,6 +98,8 @@ const cars = [
         type: "Hatchback",
         status: "Fresh",
         label: "Mint Condition",
+        pros: ["Model terbaru sangat futuristik", "Mesin turbo responsif", "Kondisi seperti baru"],
+        cons: ["Ruang kepala baris kedua terbatas", "Head unit kadang lag"]
     },
     {
         id: 7,
@@ -102,6 +114,8 @@ const cars = [
         type: "Hatchback",
         status: "Trending",
         label: "Bebas Ganjil Genap",
+        pros: ["Bebas biaya bensin", "Akselerasi instan (Listrik)", "Desain retro-futistik"],
+        cons: ["Infrastruktur charging masih terbatas", "Waktu cas lumayan lama"]
     },
     {
         id: 8,
@@ -116,6 +130,8 @@ const cars = [
         type: "SUV",
         status: "Ready",
         label: "Best Seller",
+        pros: ["Kualitas interior premium", "Handling terbaik di kelasnya", "Sistem audio Bose"],
+        cons: ["Baris kedua terasa sempit", "Sparepart lumayan mahal"]
     },
     {
         id: 9,
@@ -130,6 +146,8 @@ const cars = [
         type: "Sedan",
         status: "Ex-CEO",
         label: "History Rawat Resmi",
+        pros: ["Status sosial tinggi", "Sangat nyaman & elegan", "Fitur safety Jerman"],
+        cons: ["Pajak tahunan mahal", "Membutuhkan bensin oktan tinggi"]
     },
     {
         id: 10,
@@ -144,6 +162,8 @@ const cars = [
         type: "MPV",
         status: "Fresh",
         label: "Antrian Inden",
+        pros: ["Sangat irit (Hybrid)", "Kabin sangat lega", "Teknologi TSS lengkap"],
+        cons: ["Material plastik interior biasa", "Tenaga mesin bensin saja moderat"]
     },
     {
         id: 11,
@@ -158,6 +178,8 @@ const cars = [
         type: "Hatchback",
         status: "Ready",
         label: "Harian Irit",
+        pros: ["Fleksibilitas Ultra Seat", "Konsumsi BBM irit", "Dimensi pas urban"],
+        cons: ["Fitur safety belum selengkap HR-V", "Kekedapan kabin rata-rata"]
     },
     {
         id: 12,
@@ -172,11 +194,14 @@ const cars = [
         type: "MPV",
         status: "Ready",
         label: "Favorit Keluarga",
+        pros: ["Suspensi terenak di kelasnya", "Ground clearance tinggi", "Harga jual stabil"],
+        cons: ["Tenaga mesin biasa saja", "Transmisi terasa kurang agresif"]
     },
 ];
 
 export default function CarListing() {
     const [filter, setFilter] = useState("Semua");
+    const [expandedId, setExpandedId] = useState<number | null>(null);
 
     const categories = ["Semua", "Sedan", "SUV", "MPV", "Hatchback"];
     const filteredCars = filter === "Semua" ? cars : cars.filter(car => car.type === filter);
@@ -239,24 +264,27 @@ export default function CarListing() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
                     {filteredCars.map((car, idx) => (
                         <motion.div
                             key={car.id}
+                            layout
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: idx * 0.1 }}
                             viewport={{ once: true }}
-                            className={`group bg-brand-gray border border-white/5 rounded-3xl overflow-hidden hover:border-brand-blue/30 transition-all ${car.status === "Sold" ? "opacity-75" : ""
+                            onClick={() => setExpandedId(expandedId === car.id ? null : car.id)}
+                            className={`group bg-brand-gray border border-white/5 rounded-[32px] overflow-hidden hover:border-brand-blue/30 transition-all cursor-pointer select-none h-fit ${expandedId === car.id ? "ring-2 ring-brand-blue/50 bg-brand-zinc/40" : ""
+                                } ${car.status === "Sold" ? "opacity-75" : ""
                                 }`}
                         >
                             {/* Image Container */}
-                            <div className="relative h-56 w-full overflow-hidden">
+                            <div className="relative h-52 w-full overflow-hidden">
                                 <Image
                                     src={car.image}
                                     alt={`${car.brand} ${car.model}`}
                                     fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
                                 <div className="absolute top-4 left-4 flex gap-2">
                                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${car.status === "Sold" ? "bg-red-500 text-white" :
@@ -265,6 +293,9 @@ export default function CarListing() {
                                         }`}>
                                         {car.label}
                                     </span>
+                                </div>
+                                <div className="absolute bottom-4 right-4 bg-brand-dark/60 backdrop-blur-md p-2 rounded-full text-white/60 group-hover:text-brand-blue transition-colors">
+                                    <Plus size={16} className={`transition-transform duration-300 ${expandedId === car.id ? "rotate-45" : ""}`} />
                                 </div>
                                 {car.status === "Sold" && (
                                     <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -279,14 +310,8 @@ export default function CarListing() {
                                     <h3 className="text-xl font-bold outfit">
                                         {car.brand} {car.model}
                                     </h3>
-                                    <div className="flex flex-col items-end">
-                                        <span className="text-xs text-white/40 font-bold">{car.year}</span>
-                                        {car.status !== "Sold" && (
-                                            <span className="text-[10px] text-green-500 font-medium flex items-center gap-1 mt-1">
-                                                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                                                Sudah dilihat {Math.floor(Math.random() * 5) + 2}x hari ini
-                                            </span>
-                                        )}
+                                    <div className="flex flex-col items-end text-xs font-bold text-white/40">
+                                        <span>{car.year}</span>
                                     </div>
                                 </div>
 
@@ -305,12 +330,49 @@ export default function CarListing() {
                                     </div>
                                 </div>
 
+                                <AnimatePresence>
+                                    {expandedId === car.id && (
+                                        <motion.div
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: "auto", opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            className="overflow-hidden"
+                                        >
+                                            <div className="pt-4 border-t border-white/5 space-y-4 mb-6">
+                                                <div>
+                                                    <p className="text-[10px] uppercase tracking-widest text-green-500 font-bold mb-2">Kelebihan Unit</p>
+                                                    <ul className="space-y-1.5">
+                                                        {car.pros.map((pro, i) => (
+                                                            <li key={i} className="flex items-start gap-2 text-xs text-white/60">
+                                                                <CheckCircle2 size={12} className="text-green-500 mt-0.5 flex-shrink-0" />
+                                                                {pro}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] uppercase tracking-widest text-red-400 font-bold mb-2">Catatan Inspeksi</p>
+                                                    <ul className="space-y-1.5">
+                                                        {car.cons.map((con, i) => (
+                                                            <li key={i} className="flex items-start gap-2 text-xs text-white/60">
+                                                                <XCircle size={12} className="text-red-400 mt-0.5 flex-shrink-0" />
+                                                                {con}
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
                                 <div className="flex items-center justify-between pt-6 border-t border-white/5">
                                     <div className="text-xl font-bold text-brand-blue">{car.price}</div>
                                     {car.status !== "Sold" ? (
                                         <a
                                             href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan unit ${car.brand} ${car.model} ${car.year}. Apakah unit ini masih ready?`}
-                                            className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center text-white hover:bg-brand-blue transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="w-10 h-10 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue hover:bg-brand-blue hover:text-white transition-all shadow-lg hover:shadow-brand-blue/40"
                                         >
                                             <MessageCircle size={18} />
                                         </a>

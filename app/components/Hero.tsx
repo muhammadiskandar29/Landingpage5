@@ -16,9 +16,9 @@ export default function Hero() {
     const [selectedBudget, setSelectedBudget] = useState(budgets[0]);
 
     return (
-        <section className="relative min-h-[90vh] md:min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-[90vh] md:min-h-screen flex items-center pt-20">
             {/* Background Image */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 overflow-hidden">
                 <Image
                     src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000&auto=format&fit=crop"
                     alt="Premium Used Car"
@@ -58,7 +58,7 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
-                        className="glass p-3 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-3 max-w-4xl shadow-2xl shadow-black/50 border-white/10"
+                        className="glass p-3 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-3 max-w-4xl shadow-2xl shadow-black/50 border-white/10 relative overflow-visible"
                     >
                         <div className="flex-1 w-full flex flex-col md:flex-row items-center gap-2 px-4">
                             <div className="flex items-center gap-3 w-full border-b md:border-b-0 md:border-r border-white/10 py-3 md:py-2">
