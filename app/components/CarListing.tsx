@@ -11,7 +11,7 @@ const cars = [
         model: "Civic RS Turbo",
         year: 2021,
         price: "Rp 485.000.000",
-        image: "/images/car-1.jpg",
+        image: "https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=800&auto=format&fit=crop",
         km: "24.000 KM",
         fuel: "Bensin",
         transmission: "AT",
@@ -25,7 +25,7 @@ const cars = [
         model: "Fortuner 2.8 VRZ",
         year: 2022,
         price: "Rp 565.000.000",
-        image: "/images/car-2.jpg",
+        image: "https://images.unsplash.com/photo-1707106037807-617a268a7ada?q=80&w=800&auto=format&fit=crop",
         km: "12.000 KM",
         fuel: "Diesel",
         transmission: "AT",
@@ -39,7 +39,7 @@ const cars = [
         model: "320i Sport",
         year: 2019,
         price: "Rp 620.000.000",
-        image: "/images/car-3.jpg",
+        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop",
         km: "45.000 KM",
         fuel: "Bensin",
         transmission: "AT",
@@ -53,7 +53,7 @@ const cars = [
         model: "Pajero Sport Dakar",
         year: 2020,
         price: "Rp 495.000.000",
-        image: "/images/car-4.jpg",
+        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop",
         km: "38.000 KM",
         fuel: "Diesel",
         transmission: "AT",
@@ -61,12 +61,125 @@ const cars = [
         status: "Ready",
         label: "Unit Terbatas",
     },
+    {
+        id: 5,
+        brand: "Toyota",
+        model: "Alphard SC Premium",
+        year: 2021,
+        price: "Rp 1.150.000.000",
+        image: "https://images.unsplash.com/photo-1616422285623-13ff0167c95c?q=80&w=800&auto=format&fit=crop",
+        km: "15.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "MPV",
+        status: "Exclusive",
+        label: "Unit Premium",
+    },
+    {
+        id: 6,
+        brand: "Honda",
+        model: "HR-V RS Turbo",
+        year: 2023,
+        price: "Rp 435.000.000",
+        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop",
+        km: "5.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "Hatchback",
+        status: "Fresh",
+        label: "Mint Condition",
+    },
+    {
+        id: 7,
+        brand: "Hyundai",
+        model: "IONIQ 5 Signature",
+        year: 2022,
+        price: "Rp 745.000.000",
+        image: "https://images.unsplash.com/photo-1662436191942-5f60682bf556?q=80&w=800&auto=format&fit=crop",
+        km: "8.000 KM",
+        fuel: "Listrik",
+        transmission: "AT",
+        type: "Hatchback",
+        status: "Trending",
+        label: "Bebas Ganjil Genap",
+    },
+    {
+        id: 8,
+        brand: "Mazda",
+        model: "CX-5 Elite",
+        year: 2020,
+        price: "Rp 465.000.000",
+        image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=800&auto=format&fit=crop",
+        km: "32.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "SUV",
+        status: "Ready",
+        label: "Best Seller",
+    },
+    {
+        id: 9,
+        brand: "Mercedes-Benz",
+        model: "C200 Avantgarde",
+        year: 2018,
+        price: "Rp 595.000.000",
+        image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop",
+        km: "42.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "Sedan",
+        status: "Ex-CEO",
+        label: "History Rawat Resmi",
+    },
+    {
+        id: 10,
+        brand: "Toyota",
+        model: "Innova Zenix Q",
+        year: 2023,
+        price: "Rp 585.000.000",
+        image: "https://images.unsplash.com/photo-1621360841013-c7683c312e90?q=80&w=800&auto=format&fit=crop",
+        km: "3.000 KM",
+        fuel: "Hybrid",
+        transmission: "AT",
+        type: "MPV",
+        status: "Fresh",
+        label: "Antrian Inden",
+    },
+    {
+        id: 11,
+        brand: "Honda",
+        model: "City Hatchback RS",
+        year: 2022,
+        price: "Rp 315.000.000",
+        image: "https://images.unsplash.com/photo-1617469767053-d3b508a0d822?q=80&w=800&auto=format&fit=crop",
+        km: "18.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "Hatchback",
+        status: "Ready",
+        label: "Harian Irit",
+    },
+    {
+        id: 12,
+        brand: "Mitsubishi",
+        model: "Xpander Ultimate",
+        year: 2021,
+        price: "Rp 265.000.000",
+        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800&auto=format&fit=crop",
+        km: "28.000 KM",
+        fuel: "Bensin",
+        transmission: "AT",
+        type: "MPV",
+        status: "Ready",
+        label: "Favorit Keluarga",
+    },
 ];
 
 export default function CarListing() {
     const [filter, setFilter] = useState("Semua");
 
     const categories = ["Semua", "Sedan", "SUV", "MPV", "Hatchback"];
+    const filteredCars = filter === "Semua" ? cars : cars.filter(car => car.type === filter);
 
     return (
         <section className="py-24 bg-brand-dark" id="collection">
@@ -77,14 +190,14 @@ export default function CarListing() {
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "ItemList",
-                        "itemListElement": cars.map((car, index) => ({
+                        "itemListElement": filteredCars.map((car, index) => ({
                             "@type": "ListItem",
                             "position": index + 1,
                             "item": {
                                 "@type": "Product",
                                 "name": `${car.brand} ${car.model} ${car.year}`,
                                 "description": `Mobil bekas berkualitas ${car.brand} ${car.model} tahun ${car.year}. Kilometer ${car.km}, transmisi ${car.transmission}.`,
-                                "image": `https://autoswift.id${car.image}`,
+                                "image": car.image,
                                 "offers": {
                                     "@type": "Offer",
                                     "price": car.price.replace(/[^0-9]/g, ""),
@@ -97,23 +210,27 @@ export default function CarListing() {
                 }}
             />
             <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-                    <div className="max-w-xl">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 outfit">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-16">
+                    <div className="max-w-xl text-center md:text-left">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-[10px] font-bold uppercase tracking-wider mb-4">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
+                            Stok Terupdate Hari Ini
+                        </div>
+                        <h2 className="text-4xl md:text-6xl font-black mb-4 outfit">
                             Koleksi <span className="text-brand-blue">Terpilih</span>
                         </h2>
-                        <p className="text-white/60 font-light">
+                        <p className="text-white/60 font-light text-sm md:text-base leading-relaxed">
                             Setiap unit telah melalui proses inspeksi 100 titik untuk menjamin
-                            kualitas, legalitas, dan kenyamanan Anda berkendara.
+                            kualitas, legalitas, dan kenyamanan Anda berkendara melintasi jalanan.
                         </p>
                     </div>
 
-                    <div className="flex gap-2 p-1 bg-white/5 rounded-full overflow-x-auto no-scrollbar">
+                    <div className="flex gap-2 p-1.5 bg-white/5 rounded-full overflow-x-auto no-scrollbar border border-white/10">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap ${filter === cat ? "bg-brand-blue text-white shadow-lg shadow-brand-blue/20" : "text-white/40 hover:text-white"
+                                className={`px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all whitespace-nowrap ${filter === cat ? "bg-brand-blue text-white shadow-xl shadow-brand-blue/30" : "text-white/40 hover:text-white hover:bg-white/5"
                                     }`}
                             >
                                 {cat}
@@ -122,8 +239,8 @@ export default function CarListing() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {cars.map((car, idx) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    {filteredCars.map((car, idx) => (
                         <motion.div
                             key={car.id}
                             initial={{ opacity: 0, y: 20 }}

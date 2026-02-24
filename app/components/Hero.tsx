@@ -1,41 +1,55 @@
 "use client";
 import Image from "next/image";
-import { Search, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Search, ChevronRight, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
+const budgets = [
+    { label: "Semua Budget", value: "" },
+    { label: "100jt - 200jt", value: "100-200" },
+    { label: "200jt - 500jt", value: "200-500" },
+    { label: "500jt +", value: "500+" },
+];
 
 export default function Hero() {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [selectedBudget, setSelectedBudget] = useState(budgets[0]);
+
     return (
-        <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <section className="relative min-h-[90vh] md:min-h-screen flex items-center pt-20 overflow-hidden">
             {/* Background Image */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="/images/hero-car.jpg"
+                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2000&auto=format&fit=crop"
                     alt="Premium Used Car"
                     fill
-                    className="object-cover object-center brightness-[0.3]"
+                    className="object-cover object-center brightness-[0.4]"
                     priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/60 to-transparent" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
-                <div className="max-w-3xl">
+                <div className="max-w-4xl">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
                     >
-                        <span className="inline-block bg-brand-blue/20 text-brand-blue px-4 py-1.5 rounded-full text-xs md:text-sm font-bold mb-6 border border-brand-blue/30">
-                            Kualitas Tanpa Kompromi
-                        </span>
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 leading-tight outfit">
+                        <div className="flex items-center gap-3 mb-6">
+                            <span className="w-12 h-[2px] bg-brand-blue" />
+                            <span className="text-brand-blue font-bold tracking-[0.2em] text-xs uppercase">
+                                Automotive Excellence
+                            </span>
+                        </div>
+                        <h1 className="text-4xl sm:text-5xl md:text-8xl font-black mb-6 leading-[1.1] outfit tracking-tight">
                             Mobil Pilihan, <br />
-                            <span className="gradient-text">Cerita Baru.</span>
+                            <span className="gradient-text italic">Tanpa Kompromi.</span>
                         </h1>
-                        <p className="text-base md:text-xl text-white/70 mb-8 md:text-xl leading-relaxed font-light">
-                            Kami tidak sekadar menjual mobil bekas. Kami mengurasi unit terbaik
-                            dengan inspeksi ketat agar Anda bisa melaju dengan tenang.
-                            Kepuasan Anda adalah standar kami.
+                        <p className="text-base md:text-xl text-white/80 mb-10 max-w-2xl leading-relaxed font-light">
+                            Lupakan kekhawatiran membeli mobil bekas. Setiap unit di AutoSwift melalui
+                            kurasi ketat dan inspeksi 100+ titik oleh teknisi ahli. Garansi kepuasan 100%.
                         </p>
                     </motion.div>
 
@@ -43,55 +57,83 @@ export default function Hero() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="glass p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-2 max-w-4xl"
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="glass p-3 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-3 max-w-4xl shadow-2xl shadow-black/50 border-white/10"
                     >
                         <div className="flex-1 w-full flex flex-col md:flex-row items-center gap-2 px-4">
-                            <div className="flex items-center gap-3 w-full border-b md:border-b-0 md:border-r border-white/10 py-3 md:py-0">
-                                <Search className="text-white/40" size={20} />
+                            <div className="flex items-center gap-3 w-full border-b md:border-b-0 md:border-r border-white/10 py-3 md:py-2">
+                                <Search className="text-brand-blue" size={20} />
                                 <input
                                     type="text"
-                                    placeholder="Cari Merk atau Model..."
-                                    className="bg-transparent border-none outline-none w-full text-sm"
+                                    placeholder="Cari Merk atau Model (e.g. Honda Civic)..."
+                                    className="bg-transparent border-none outline-none w-full text-sm placeholder:text-white/30 text-white font-medium"
                                 />
                             </div>
-                            <div className="w-full md:w-auto py-3 md:py-0">
-                                <select className="bg-transparent border-none outline-none w-full text-sm text-white/60 cursor-pointer">
-                                    <option value="">Semua Budget</option>
-                                    <option value="100-200">100jt - 200jt</option>
-                                    <option value="200-500">200jt - 500jt</option>
-                                    <option value="500+">500jt +</option>
-                                </select>
+
+                            {/* Custom Dropdown */}
+                            <div className="relative w-full md:w-56 py-3 md:py-0">
+                                <button
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    className="flex items-center justify-between w-full text-sm text-white/80 hover:text-white transition-colors px-2 font-medium"
+                                >
+                                    <span>{selectedBudget.label}</span>
+                                    <ChevronDown size={16} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                <AnimatePresence>
+                                    {isDropdownOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: 10 }}
+                                            className="absolute top-full left-0 mt-4 w-full bg-brand-gray border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-50 backdrop-blur-xl"
+                                        >
+                                            {budgets.map((budget) => (
+                                                <button
+                                                    key={budget.value}
+                                                    onClick={() => {
+                                                        setSelectedBudget(budget);
+                                                        setIsDropdownOpen(false);
+                                                    }}
+                                                    className="w-full text-left px-5 py-3.5 text-sm hover:bg-brand-blue hover:text-white transition-all border-b border-white/5 last:border-none font-medium"
+                                                >
+                                                    {budget.label}
+                                                </button>
+                                            ))}
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </div>
                         <a
                             href="#collection"
-                            className="w-full md:w-auto bg-brand-blue hover:bg-brand-blue/80 text-white px-8 py-4 rounded-xl md:rounded-full font-bold flex items-center justify-center gap-2 transition-all"
+                            className="w-full md:w-auto bg-brand-blue hover:bg-brand-blue/90 text-white px-10 py-4 md:py-5 rounded-xl md:rounded-full font-bold flex items-center justify-center gap-2 transition-all shadow-xl shadow-brand-blue/30 scale-100 hover:scale-[1.02] active:scale-95"
                         >
-                            Temukan Mobil
+                            Cek Koleksi
                             <ChevronRight size={18} />
                         </a>
                     </motion.div>
 
-                    <div className="mt-12 flex flex-wrap gap-8">
+                    <div className="mt-16 flex flex-wrap gap-12 md:gap-20">
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold outfit">100+</span>
-                            <span className="text-xs text-white/40 uppercase tracking-widest">Poin Inspeksi</span>
+                            <span className="text-4xl font-black outfit text-brand-blue">100+</span>
+                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Poin Inspeksi</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold outfit">50+</span>
-                            <span className="text-xs text-white/40 uppercase tracking-widest">Unit Ready</span>
+                            <span className="text-4xl font-black outfit text-brand-blue">50+</span>
+                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Unit Ready</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-3xl font-bold outfit">24j</span>
-                            <span className="text-xs text-white/40 uppercase tracking-widest">Persetujuan Kredit</span>
+                            <span className="text-4xl font-black outfit text-brand-blue">24j</span>
+                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Acc Kredit</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Decorative Gradient */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-brand-blue/10 blur-[120px] -z-10" />
+            {/* Decorative Background Accents */}
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-brand-blue/20 blur-[150px] -z-10 animate-pulse-soft" />
+            <div className="absolute bottom-[-10%] left-[-5%] w-[300px] h-[300px] bg-brand-blue/10 blur-[100px] -z-10" />
         </section>
     );
 }
