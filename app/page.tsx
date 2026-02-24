@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MousePointerClick, CalendarDays, KeyRound } from "lucide-react";
 import Navbar from "./components/Navbar";
@@ -28,12 +29,23 @@ const howToSteps = [
 ];
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [budgetRange, setBudgetRange] = useState("");
+
   return (
     <main className="min-h-screen bg-brand-dark">
       <Navbar />
-      <Hero />
+      <Hero
+        onSearchChange={setSearchQuery}
+        onBudgetChange={setBudgetRange}
+        currentSearch={searchQuery}
+        currentBudget={budgetRange}
+      />
       <TrustBar />
-      <CarListing />
+      <CarListing
+        searchQuery={searchQuery}
+        budgetRange={budgetRange}
+      />
 
       {/* How To Buy Section */}
       <section className="py-16 md:py-24 bg-brand-gray/50" id="how-to">

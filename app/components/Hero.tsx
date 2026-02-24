@@ -11,9 +11,17 @@ const budgets = [
     { label: "500jt +", value: "500+" },
 ];
 
-export default function Hero() {
+interface HeroProps {
+    onSearchChange: (val: string) => void;
+    onBudgetChange: (val: string) => void;
+    currentSearch: string;
+    currentBudget: string;
+}
+
+export default function Hero({ onSearchChange, onBudgetChange, currentSearch, currentBudget }: HeroProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [selectedBudget, setSelectedBudget] = useState(budgets[0]);
+
+    const selectedBudget = budgets.find(b => b.value === currentBudget) || budgets[0];
 
     return (
         <section className="relative min-h-[90vh] md:min-h-screen flex items-center pt-20">
@@ -65,6 +73,8 @@ export default function Hero() {
                                 <Search className="text-brand-blue" size={20} />
                                 <input
                                     type="text"
+                                    value={currentSearch}
+                                    onChange={(e) => onSearchChange(e.target.value)}
                                     placeholder="Cari Merk atau Model (e.g. Honda Civic)..."
                                     className="bg-transparent border-none outline-none w-full text-sm placeholder:text-white/30 text-white font-medium"
                                 />
@@ -92,7 +102,7 @@ export default function Hero() {
                                                 <button
                                                     key={budget.value}
                                                     onClick={() => {
-                                                        setSelectedBudget(budget);
+                                                        onBudgetChange(budget.value);
                                                         setIsDropdownOpen(false);
                                                     }}
                                                     className="w-full text-left px-5 py-3.5 text-sm hover:bg-brand-blue hover:text-white transition-all border-b border-white/5 last:border-none font-medium"

@@ -4,7 +4,24 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Fuel, Gauge, Settings, ChevronRight, MessageCircle, CheckCircle2, XCircle, Plus } from "lucide-react";
 
-const cars = [
+interface Car {
+    id: number;
+    brand: string;
+    model: string;
+    year: number;
+    price: string;
+    image: string;
+    km: string;
+    fuel: string;
+    transmission: string;
+    type: string;
+    status: string;
+    label: string;
+    plus: string[];
+    minus: string[];
+}
+
+const cars: Car[] = [
     {
         id: 1,
         brand: "Honda",
@@ -18,8 +35,8 @@ const cars = [
         type: "Sedan",
         status: "Fresh",
         label: "Baru Masuk",
-        pros: ["Mesin turbo bertenaga", "Desain sporty & agresif", "Handling sangat stabil"],
-        cons: ["Kabin agak berisik di kecepatan tinggi", "Pajak tahunan cukup tinggi"]
+        plus: ["Jok sudah full kulit premium", "Mesin turbo sangat responsif", "Service record bengkel resmi"],
+        minus: ["Ban depan mulai tipis", "Ada baret halus di bemper belakang"]
     },
     {
         id: 2,
@@ -27,15 +44,15 @@ const cars = [
         model: "Fortuner 2.8 VRZ",
         year: 2022,
         price: "Rp 565.000.000",
-        image: "https://images.unsplash.com/photo-1707106037807-617a268a7ada?q=80&w=800&auto=format&fit=crop",
+        image: "/images/car-2.jpg",
         km: "12.000 KM",
         fuel: "Diesel",
         transmission: "AT",
         type: "SUV",
         status: "Trending",
         label: "Banyak Dilihat",
-        pros: ["Torsi mesin 2.8 sangat melimpah", "Gagah & berwibawa", "Jaringan servis luas"],
-        cons: ["Pengereman terasa sedikit berat", "Konsumsi BBM dalam kota lumayan"]
+        plus: ["Body full original mulus", "Kaca film V-Kool 80%", "Interior wangi mobil baru"],
+        minus: ["Pajak mepet bulan depan", "Sedikit noda di plafon"]
     },
     {
         id: 3,
@@ -43,15 +60,15 @@ const cars = [
         model: "320i Sport",
         year: 2019,
         price: "Rp 620.000.000",
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?q=80&w=800&auto=format&fit=crop",
+        image: "/images/car-3.jpg",
         km: "45.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "Sedan",
         status: "Sold",
         label: "TERJUAL",
-        pros: ["Kenyamanan khas Eropa", "Fitur teknologi canggih", "Image brand premium"],
-        cons: ["Biaya perawatan tinggi", "Part harus inden jika tidak ready"]
+        plus: ["Kaki-kaki senyap total", "Fitur iDrive sudah update", "Audio Harman Kardon"],
+        minus: ["No minus, unit istimewa"]
     },
     {
         id: 4,
@@ -59,15 +76,15 @@ const cars = [
         model: "Pajero Sport Dakar",
         year: 2020,
         price: "Rp 495.000.000",
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop",
+        image: "/images/car-4.jpg",
         km: "38.000 KM",
         fuel: "Diesel",
         transmission: "AT",
         type: "SUV",
         status: "Ready",
         label: "Unit Terbatas",
-        pros: ["Fitur sunroof & elektrik", "Bantingan suspensi empuk", "Mesin handal"],
-        cons: ["Radius putar cukup besar", "Interior terasa agak sempit"]
+        plus: ["Sunroof berfungsi normal", "Modul rem ABS baru ganti", "Foglamp LED"],
+        minus: ["Karpet dasar perlu dibersihkan", "Remote kunci cadangan hilang"]
     },
     {
         id: 5,
@@ -75,15 +92,15 @@ const cars = [
         model: "Alphard SC Premium",
         year: 2021,
         price: "Rp 1.150.000.000",
-        image: "https://images.unsplash.com/photo-1616422285623-13ff0167c95c?q=80&w=800&auto=format&fit=crop",
+        image: "/images/astra-black.png",
         km: "15.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "MPV",
         status: "Exclusive",
         label: "Unit Premium",
-        pros: ["Kenyamanan kursi pilot", "Kabin sangat senyap", "Kesan mewah maksimal"],
-        cons: ["Dimensi bongsor sulit parkir", "Sangat haus bahan bakar"]
+        plus: ["Pilot seat full elektrik", "Power back door lancar", "Gorden interior mewah"],
+        minus: ["Konsumsi BBM lumayan boros", "Ada sedikit dent di pintu samping"]
     },
     {
         id: 6,
@@ -91,15 +108,15 @@ const cars = [
         model: "HR-V RS Turbo",
         year: 2023,
         price: "Rp 435.000.000",
-        image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800&auto=format&fit=crop",
+        image: "/images/corsa-red.png",
         km: "5.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "Hatchback",
         status: "Fresh",
         label: "Mint Condition",
-        pros: ["Model terbaru sangat futuristik", "Mesin turbo responsif", "Kondisi seperti baru"],
-        cons: ["Ruang kepala baris kedua terbatas", "Head unit kadang lag"]
+        plus: ["Warna merah favorit", "Kamera 360 derajat", "Smart key entry"],
+        minus: ["Sudah service pertama", "Ada baret halus di handle pintu"]
     },
     {
         id: 7,
@@ -107,15 +124,15 @@ const cars = [
         model: "IONIQ 5 Signature",
         year: 2022,
         price: "Rp 745.000.000",
-        image: "https://images.unsplash.com/photo-1662436191942-5f60682bf556?q=80&w=800&auto=format&fit=crop",
+        image: "/images/mokka-blue.png",
         km: "8.000 KM",
         fuel: "Listrik",
         transmission: "AT",
         type: "Hatchback",
         status: "Trending",
         label: "Bebas Ganjil Genap",
-        pros: ["Bebas biaya bensin", "Akselerasi instan (Listrik)", "Desain retro-futistik"],
-        cons: ["Infrastruktur charging masih terbatas", "Waktu cas lumayan lama"]
+        plus: ["Bebas ganjil genap", "Fast charging normal", "Cat original 100%"],
+        minus: ["Kabel portable charger tidak ada", "Warna kurang favorit"]
     },
     {
         id: 8,
@@ -123,15 +140,15 @@ const cars = [
         model: "CX-5 Elite",
         year: 2020,
         price: "Rp 465.000.000",
-        image: "https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=800&auto=format&fit=crop",
+        image: "/images/insignia-grey.png",
         km: "32.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "SUV",
         status: "Ready",
         label: "Best Seller",
-        pros: ["Kualitas interior premium", "Handling terbaik di kelasnya", "Sistem audio Bose"],
-        cons: ["Baris kedua terasa sempit", "Sparepart lumayan mahal"]
+        plus: ["Audio Bose Premium", "Heads up display", "Adaptive LED Headlights"],
+        minus: ["Ban belakang gundul sebelah", "Pajak mati 1 bulan"]
     },
     {
         id: 9,
@@ -139,15 +156,15 @@ const cars = [
         model: "C200 Avantgarde",
         year: 2018,
         price: "Rp 595.000.000",
-        image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop",
+        image: "/images/viva-white.png",
         km: "42.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "Sedan",
         status: "Ex-CEO",
         label: "History Rawat Resmi",
-        pros: ["Status sosial tinggi", "Sangat nyaman & elegan", "Fitur safety Jerman"],
-        cons: ["Pajak tahunan mahal", "Membutuhkan bensin oktan tinggi"]
+        plus: ["Interior kulit beige bersih", "Ambience light 64 warna", "Tangan pertama dari baru"],
+        minus: ["Buku manual hilang", "Ada bunyi gluduk di roda depan"]
     },
     {
         id: 10,
@@ -155,15 +172,15 @@ const cars = [
         model: "Innova Zenix Q",
         year: 2023,
         price: "Rp 585.000.000",
-        image: "https://images.unsplash.com/photo-1621360841013-c7683c312e90?q=80&w=800&auto=format&fit=crop",
+        image: "/images/grandx-white.png",
         km: "3.000 KM",
         fuel: "Hybrid",
         transmission: "AT",
         type: "MPV",
         status: "Fresh",
         label: "Antrian Inden",
-        pros: ["Sangat irit (Hybrid)", "Kabin sangat lega", "Teknologi TSS lengkap"],
-        cons: ["Material plastik interior biasa", "Tenaga mesin bensin saja moderat"]
+        plus: ["Sangat irit bahan bakar", "Panoramic sunroof luas", "Sudah pasang coating"],
+        minus: ["Plat nomor belum keluar", "Material dashboard banyak plastik"]
     },
     {
         id: 11,
@@ -171,15 +188,15 @@ const cars = [
         model: "City Hatchback RS",
         year: 2022,
         price: "Rp 315.000.000",
-        image: "https://images.unsplash.com/photo-1617469767053-d3b508a0d822?q=80&w=800&auto=format&fit=crop",
+        image: "/images/cross-white.png",
         km: "18.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "Hatchback",
         status: "Ready",
         label: "Harian Irit",
-        pros: ["Fleksibilitas Ultra Seat", "Konsumsi BBM irit", "Dimensi pas urban"],
-        cons: ["Fitur safety belum selengkap HR-V", "Kekedapan kabin rata-rata"]
+        plus: ["Velg sudah repaint hitam", "Audio upgrade subwoofer", "Interior sangat rapi"],
+        minus: ["Tool kit tidak lengkap", "Ada dent kecil di kap mesin"]
     },
     {
         id: 12,
@@ -187,24 +204,55 @@ const cars = [
         model: "Xpander Ultimate",
         year: 2021,
         price: "Rp 265.000.000",
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800&auto=format&fit=crop",
+        image: "/images/grand-grey.png",
         km: "28.000 KM",
         fuel: "Bensin",
         transmission: "AT",
         type: "MPV",
         status: "Ready",
         label: "Favorit Keluarga",
-        pros: ["Suspensi terenak di kelasnya", "Ground clearance tinggi", "Harga jual stabil"],
-        cons: ["Tenaga mesin biasa saja", "Transmisi terasa kurang agresif"]
+        plus: ["Cruise control aktif", "Headunit Android Auto", "Kaki-kaki empuk"],
+        minus: ["Sarung jok mulai kusam", "Baret pemakaian di bagasi"]
     },
 ];
 
-export default function CarListing() {
+interface CarListingProps {
+    searchQuery: string;
+    budgetRange: string;
+}
+
+export default function CarListing({ searchQuery, budgetRange }: CarListingProps) {
     const [filter, setFilter] = useState("Semua");
     const [expandedId, setExpandedId] = useState<number | null>(null);
 
     const categories = ["Semua", "Sedan", "SUV", "MPV", "Hatchback"];
-    const filteredCars = filter === "Semua" ? cars : cars.filter(car => car.type === filter);
+
+    const getNumericPrice = (priceStr: string) => {
+        return parseInt(priceStr.replace(/[^0-9]/g, "")) || 0;
+    };
+
+    const filteredCars = cars.filter(car => {
+        // Category Filter
+        const matchesCategory = filter === "Semua" || car.type === filter;
+
+        // Search Filter
+        const searchInput = searchQuery.toLowerCase();
+        const matchesSearch = car.brand.toLowerCase().includes(searchInput) ||
+            car.model.toLowerCase().includes(searchInput);
+
+        // Budget Filter
+        let matchesBudget = true;
+        const price = getNumericPrice(car.price);
+        if (budgetRange === "100-200") {
+            matchesBudget = price >= 100000000 && price <= 200000000;
+        } else if (budgetRange === "200-500") {
+            matchesBudget = price >= 200000000 && price <= 500000000;
+        } else if (budgetRange === "500+") {
+            matchesBudget = price >= 500000000;
+        }
+
+        return matchesCategory && matchesSearch && matchesBudget;
+    });
 
     return (
         <section className="py-24 bg-brand-dark" id="collection">
@@ -264,136 +312,145 @@ export default function CarListing() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
-                    {filteredCars.map((car, idx) => (
-                        <motion.div
-                            key={car.id}
-                            layout
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: idx * 0.1 }}
-                            viewport={{ once: true }}
-                            onClick={() => setExpandedId(expandedId === car.id ? null : car.id)}
-                            className={`group bg-brand-gray border border-white/5 rounded-[32px] overflow-hidden hover:border-brand-blue/30 transition-all cursor-pointer select-none h-fit ${expandedId === car.id ? "ring-2 ring-brand-blue/50 bg-brand-zinc/40" : ""
-                                } ${car.status === "Sold" ? "opacity-75" : ""
-                                }`}
+                {filteredCars.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
+                        {filteredCars.map((car, idx) => (
+                            <motion.div
+                                key={car.id}
+                                layout
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                                viewport={{ once: true }}
+                                onClick={() => setExpandedId(expandedId === car.id ? null : car.id)}
+                                className={`group bg-brand-gray border border-white/5 rounded-[32px] overflow-hidden hover:border-brand-blue/30 transition-all cursor-pointer select-none h-fit ${expandedId === car.id ? "ring-2 ring-brand-blue/50 bg-brand-zinc/40" : ""
+                                    } ${car.status === "Sold" ? "opacity-75" : ""
+                                    }`}
+                            >
+                                {/* Image Container */}
+                                <div className="relative h-52 w-full overflow-hidden">
+                                    <Image
+                                        src={car.image}
+                                        alt={`${car.brand} ${car.model}`}
+                                        fill
+                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                    />
+                                    <div className="absolute top-4 left-4 flex gap-2">
+                                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${car.status === "Sold" ? "bg-red-500 text-white" :
+                                            car.status === "Fresh" ? "bg-green-500 text-white" :
+                                                "bg-brand-blue text-white"
+                                            }`}>
+                                            {car.label}
+                                        </span>
+                                    </div>
+                                    <div className="absolute bottom-4 right-4 bg-brand-dark/60 backdrop-blur-md p-2 rounded-full text-white/60 group-hover:text-brand-blue transition-colors">
+                                        <Plus size={16} className={`transition-transform duration-300 ${expandedId === car.id ? "rotate-45" : ""}`} />
+                                    </div>
+                                    {car.status === "Sold" && (
+                                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                            <span className="text-3xl font-black text-white -rotate-12 border-4 border-white px-6 py-2">SOLD</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Info Container */}
+                                <div className="p-6">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="text-xl font-bold outfit">
+                                            {car.brand} {car.model}
+                                        </h3>
+                                        <div className="flex flex-col items-end text-xs font-bold text-white/40">
+                                            <span>{car.year}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="flex items-center gap-1.5 text-white/40">
+                                            <Gauge size={14} />
+                                            <span className="text-xs">{car.km}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-white/40">
+                                            <Fuel size={14} />
+                                            <span className="text-xs">{car.fuel}</span>
+                                        </div>
+                                        <div className="flex items-center gap-1.5 text-white/40">
+                                            <Settings size={14} />
+                                            <span className="text-xs">{car.transmission}</span>
+                                        </div>
+                                    </div>
+
+                                    <AnimatePresence>
+                                        {expandedId === car.id && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: "auto", opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="pt-4 border-t border-white/5 space-y-4 mb-6">
+                                                    <div>
+                                                        <p className="text-[10px] uppercase tracking-widest text-green-500 font-bold mb-2">Plus / Kelebihan</p>
+                                                        <ul className="space-y-1.5">
+                                                            {car.plus.map((p, i) => (
+                                                                <li key={i} className="flex items-start gap-2 text-xs text-white/60">
+                                                                    <CheckCircle2 size={12} className="text-green-500 mt-0.5 flex-shrink-0" />
+                                                                    {p}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[10px] uppercase tracking-widest text-red-400 font-bold mb-2">Minus / Catatan</p>
+                                                        <ul className="space-y-1.5">
+                                                            {car.minus.map((m, i) => (
+                                                                <li key={i} className="flex items-start gap-2 text-xs text-white/60">
+                                                                    <XCircle size={12} className="text-red-400 mt-0.5 flex-shrink-0" />
+                                                                    {m}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
+                                    <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                                        <div className="text-xl font-bold text-brand-blue">{car.price}</div>
+                                        {car.status !== "Sold" ? (
+                                            <a
+                                                href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan unit ${car.brand} ${car.model} ${car.year}. Apakah unit ini masih ready?`}
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="w-10 h-10 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue hover:bg-brand-blue hover:text-white transition-all shadow-lg hover:shadow-brand-blue/40"
+                                            >
+                                                <MessageCircle size={18} />
+                                            </a>
+                                        ) : (
+                                            <div className="text-[10px] text-white/20 font-bold uppercase">Sudah Terjual</div>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="py-20 text-center glass rounded-[40px] border-dashed border-2 border-white/10">
+                        <div className="mb-6 flex justify-center">
+                            <Plus size={48} className="text-white/10 rotate-45" />
+                        </div>
+                        <h3 className="text-2xl font-bold mb-2 outfit">Unit Tidak Ditemukan</h3>
+                        <p className="text-white/40">Coba ubah kriteria pencarian atau budget Anda.</p>
+                        <button
+                            onClick={() => {
+                                window.location.href = "#";
+                                setTimeout(() => window.location.reload(), 100);
+                            }}
+                            className="mt-6 text-brand-blue text-sm font-bold hover:underline"
                         >
-                            {/* Image Container */}
-                            <div className="relative h-52 w-full overflow-hidden">
-                                <Image
-                                    src={car.image}
-                                    alt={`${car.brand} ${car.model}`}
-                                    fill
-                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                <div className="absolute top-4 left-4 flex gap-2">
-                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${car.status === "Sold" ? "bg-red-500 text-white" :
-                                        car.status === "Fresh" ? "bg-green-500 text-white" :
-                                            "bg-brand-blue text-white"
-                                        }`}>
-                                        {car.label}
-                                    </span>
-                                </div>
-                                <div className="absolute bottom-4 right-4 bg-brand-dark/60 backdrop-blur-md p-2 rounded-full text-white/60 group-hover:text-brand-blue transition-colors">
-                                    <Plus size={16} className={`transition-transform duration-300 ${expandedId === car.id ? "rotate-45" : ""}`} />
-                                </div>
-                                {car.status === "Sold" && (
-                                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                                        <span className="text-3xl font-black text-white -rotate-12 border-4 border-white px-6 py-2">SOLD</span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Info Container */}
-                            <div className="p-6">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="text-xl font-bold outfit">
-                                        {car.brand} {car.model}
-                                    </h3>
-                                    <div className="flex flex-col items-end text-xs font-bold text-white/40">
-                                        <span>{car.year}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="flex items-center gap-1.5 text-white/40">
-                                        <Gauge size={14} />
-                                        <span className="text-xs">{car.km}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-white/40">
-                                        <Fuel size={14} />
-                                        <span className="text-xs">{car.fuel}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5 text-white/40">
-                                        <Settings size={14} />
-                                        <span className="text-xs">{car.transmission}</span>
-                                    </div>
-                                </div>
-
-                                <AnimatePresence>
-                                    {expandedId === car.id && (
-                                        <motion.div
-                                            initial={{ height: 0, opacity: 0 }}
-                                            animate={{ height: "auto", opacity: 1 }}
-                                            exit={{ height: 0, opacity: 0 }}
-                                            className="overflow-hidden"
-                                        >
-                                            <div className="pt-4 border-t border-white/5 space-y-4 mb-6">
-                                                <div>
-                                                    <p className="text-[10px] uppercase tracking-widest text-green-500 font-bold mb-2">Kelebihan Unit</p>
-                                                    <ul className="space-y-1.5">
-                                                        {car.pros.map((pro, i) => (
-                                                            <li key={i} className="flex items-start gap-2 text-xs text-white/60">
-                                                                <CheckCircle2 size={12} className="text-green-500 mt-0.5 flex-shrink-0" />
-                                                                {pro}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                                <div>
-                                                    <p className="text-[10px] uppercase tracking-widest text-red-400 font-bold mb-2">Catatan Inspeksi</p>
-                                                    <ul className="space-y-1.5">
-                                                        {car.cons.map((con, i) => (
-                                                            <li key={i} className="flex items-start gap-2 text-xs text-white/60">
-                                                                <XCircle size={12} className="text-red-400 mt-0.5 flex-shrink-0" />
-                                                                {con}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-
-                                <div className="flex items-center justify-between pt-6 border-t border-white/5">
-                                    <div className="text-xl font-bold text-brand-blue">{car.price}</div>
-                                    {car.status !== "Sold" ? (
-                                        <a
-                                            href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan unit ${car.brand} ${car.model} ${car.year}. Apakah unit ini masih ready?`}
-                                            onClick={(e) => e.stopPropagation()}
-                                            className="w-10 h-10 bg-brand-blue/10 rounded-full flex items-center justify-center text-brand-blue hover:bg-brand-blue hover:text-white transition-all shadow-lg hover:shadow-brand-blue/40"
-                                        >
-                                            <MessageCircle size={18} />
-                                        </a>
-                                    ) : (
-                                        <div className="text-[10px] text-white/20 font-bold uppercase">Sudah Terjual</div>
-                                    )}
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-
-                <div className="mt-16 text-center">
-                    <button className="bg-white/5 border border-white/10 text-white px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-all flex items-center gap-2 mx-auto">
-                        Lihat Stok Lainnya
-                        <ChevronRight size={18} />
-                    </button>
-                    <p className="mt-6 text-sm text-white/30 italic">
-                        * Stok unit berganti setiap hari. Hubungi kami untuk update stok terbaru.
-                    </p>
-                </div>
+                            Reset Semua Filter
+                        </button>
+                    </div>
+                )}
             </div>
         </section>
     );
