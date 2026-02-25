@@ -124,18 +124,18 @@ export default function Hero({ onSearchChange, onBudgetChange, currentSearch, cu
                         </a>
                     </motion.div>
 
-                    <div className="mt-16 flex flex-wrap gap-12 md:gap-20">
+                    <div className="mt-16 grid grid-cols-3 gap-4 md:gap-20 max-w-2xl">
                         <div className="flex flex-col">
-                            <span className="text-4xl font-black outfit text-brand-blue">100+</span>
-                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Poin Inspeksi</span>
+                            <span className="text-3xl md:text-5xl font-black outfit text-brand-blue">100+</span>
+                            <span className="text-[8px] md:text-[10px] text-white/50 uppercase tracking-[0.1em] md:tracking-[0.2em] mt-1 line-clamp-1">Poin Inspeksi</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-4xl font-black outfit text-brand-blue">50+</span>
-                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Unit Ready</span>
+                            <span className="text-3xl md:text-5xl font-black outfit text-brand-blue">50+</span>
+                            <span className="text-[8px] md:text-[10px] text-white/50 uppercase tracking-[0.1em] md:tracking-[0.2em] mt-1 line-clamp-1">Unit Ready</span>
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-4xl font-black outfit text-brand-blue">24j</span>
-                            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] mt-1">Acc Kredit</span>
+                            <span className="text-3xl md:text-5xl font-black outfit text-brand-blue">24j</span>
+                            <span className="text-[8px] md:text-[10px] text-white/50 uppercase tracking-[0.1em] md:tracking-[0.2em] mt-1 line-clamp-1">Acc Kredit</span>
                         </div>
                     </div>
                 </div>

@@ -298,12 +298,12 @@ export default function CarListing({ searchQuery, budgetRange }: CarListingProps
                         </p>
                     </div>
 
-                    <div className="flex gap-2 p-1.5 bg-white/5 rounded-full overflow-x-auto no-scrollbar border border-white/10">
+                    <div className="flex gap-1.5 p-1 bg-white/5 rounded-full overflow-x-auto no-scrollbar border border-white/10 max-w-full mx-auto md:mx-0">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
                                 onClick={() => setFilter(cat)}
-                                className={`px-8 py-2.5 rounded-full text-xs md:text-sm font-bold transition-all whitespace-nowrap ${filter === cat ? "bg-brand-blue text-white shadow-xl shadow-brand-blue/30" : "text-white/40 hover:text-white hover:bg-white/5"
+                                className={`px-5 md:px-8 py-2 md:py-2.5 rounded-full text-[10px] md:text-sm font-bold transition-all whitespace-nowrap ${filter === cat ? "bg-brand-blue text-white shadow-xl shadow-brand-blue/30" : "text-white/40 hover:text-white hover:bg-white/5"
                                     }`}
                             >
                                 {cat}

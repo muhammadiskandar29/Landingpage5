@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "AutoSwift.id | Jual Mobil Bekas Jakarta Sunter | Inspeksi & Garansi",
   description: "Cari mobil bekas berkualitas di Jakarta? AutoSwift menyediakan unit premium dengan inspeksi 100 titik, garansi mesin, dan surat-surat terjamin. Kunjungi showroom kami di Bursa Sunter.",
   keywords: ["mobil bekas jakarta", "jual mobil bekas sunter", "dealer mobil bekas terpercaya", "honda civic bekas jakarta", "toyota fortuner bekas", "inspeksi mobil bekas"],
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0",
   openGraph: {
     title: "AutoSwift.id - Dealer Mobil Bekas Pilihan di Jakarta",
     description: "Mobil bekas premium dengan standar inspeksi tinggi. Aman, transparan dan bergaransi.",
